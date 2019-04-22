@@ -1,0 +1,20 @@
+{
+  "name": "@eyhn/crypto",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/EYHN/crypto.git",
+  "author": "eyhn <cneyhn@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "test": "jest --config jest.config.js"
+  },
+  "devDependencies": {
+    "@types/jest": "^24.0.11",
+    "jest": "^24.5.0",
+    "ts-jest": "^24.0.0",
+    "typescript": "^3.3.4000"
+  },
+  "dependencies": {
+    "big-integer": "^1.6.43"
+  }
+}
