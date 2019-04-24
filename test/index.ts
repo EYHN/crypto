@@ -52,6 +52,11 @@ describe('rsa', () => {
     expect(rsa.q.length * 8).toBe(512);
   });
 
+  it('seed', () => {
+    const rsa = crypto.rsa.generate(1024, 65537, 'seed');
+    expect(rsa).toMatchSnapshot();
+  });
+
   it('feature', () => {
     const rsa = crypto.rsa.generate(1024, 65537);
     const sourcestr = 'test';
