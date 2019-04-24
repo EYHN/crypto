@@ -29,3 +29,7 @@ export function textToArrayBuffer(s: string) {
   }
   return new Uint8Array(ba).buffer;
 }
+
+export function arrayBufferToText(buffer: ArrayBuffer) {
+  return String.fromCharCode.apply(null, new Uint8Array(buffer));
+}

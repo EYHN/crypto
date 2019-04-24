@@ -37,7 +37,6 @@ export default function pkcs1generate(bitlength: number, expt: number) {
     q = generatePrime(qs, rng);
     if (BigInt.gcd(q.subtract(BigInt.one), ee).equals(BigInt.one) && q.isProbablePrime(10)) break;
   }
-  console.log(p.bitLength(),q.bitLength())
   if (p.lesserOrEquals(q)) {
     const t = p;
     p = q;
@@ -63,4 +62,5 @@ export default function pkcs1generate(bitlength: number, expt: number) {
       coeff: new Uint8Array(coeff.toArray(256).value)
     }
   }
+  throw new Error("pkcs1 generate failure!");
 }
