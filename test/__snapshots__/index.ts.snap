@@ -596,3 +596,5 @@ Object {
 `;
 
 exports[`sha1 hash 1`] = `ArrayBuffer []`;
+
+exports[`sha256 hash 1`] = `ArrayBuffer []`;

@@ -82,3 +82,11 @@ describe('sha1', () => {
     expect(hash).toMatchSnapshot();
   });
 });
+
+describe('sha256', () => {
+  it('hash', () => {
+    const hash = crypto.sha256(new Uint8Array([1,2,3]));
+    expect(hash.byteLength).toBe(32);
+    expect(hash).toMatchSnapshot();
+  });
+});
