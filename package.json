@@ -1,12 +1,14 @@
 {
   "name": "@eyhn/crypto",
-  "version": "1.0.0",
-  "main": "index.js",
+  "version": "1.0.2",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "repository": "https://github.com/EYHN/crypto.git",
   "author": "eyhn <cneyhn@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "test": "jest --config jest.config.js"
+    "test": "jest --config jest.config.js",
+    "build": "tsc"
   },
   "devDependencies": {
     "@types/jest": "^24.0.11",
