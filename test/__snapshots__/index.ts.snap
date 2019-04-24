@@ -594,3 +594,5 @@ Object {
   ],
 }
 `;
+
+exports[`sha1 hash 1`] = `ArrayBuffer []`;

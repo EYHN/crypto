@@ -17,6 +17,7 @@
     "typescript": "^3.3.4000"
   },
   "dependencies": {
-    "big-integer": "^1.6.43"
+    "big-integer": "^1.6.43",
+    "js-sha1": "^0.6.0"
   }
 }

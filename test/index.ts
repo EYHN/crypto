@@ -74,3 +74,11 @@ describe('rsa', () => {
     expect(str).toBe(sourcestr);
   });
 });
+
+describe('sha1', () => {
+  it('hash', () => {
+    const hash = crypto.sha1(new Uint8Array([1,2,3]));
+    expect(hash.byteLength).toBe(20);
+    expect(hash).toMatchSnapshot();
+  });
+});

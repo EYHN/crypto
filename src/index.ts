@@ -8,6 +8,7 @@ import pkcs1doprivate from "./pkcs1/doprivate";
 import pkcs1generate from "./pkcs1/generate";
 import pkcs1decrypt from "./pkcs1/decrypt";
 import { arrayBufferToBigInt } from "./bigint";
+import sha1 from "./sha1";
 
 export = {
   rsa: {
@@ -19,6 +20,7 @@ export = {
     doprivate: pkcs1doprivate,
     generate: pkcs1generate
   },
+  sha1: sha1,
   tools: {
     hexToArrayBuffer: hexToArrayBuffer,
     arrayBufferToHex: arrayBufferToHex,
