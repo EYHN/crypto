@@ -5,5 +5,5 @@ export default function pkcs1doprivate(d: ArrayBuffer, n: ArrayBuffer, data: Arr
   const di = arrayBufferToBigInt(d);
   const ni = arrayBufferToBigInt(n);
 
-  return new Uint8Array(datai.modPow(di, ni).toArray(256).value)
+  return new Uint8Array(datai.modPow(di, ni).toArray(256).value).buffer
 }

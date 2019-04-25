@@ -19,5 +19,5 @@ export default function pkcs1padding(s: ArrayBuffer, n: number) {
   ba.set(random, 2);
   ba[random.byteLength + 2] = 0;
   ba.set(new Uint8Array(s), random.byteLength + 3);
-  return ba;
+  return ba.buffer;
 }

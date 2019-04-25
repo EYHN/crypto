@@ -54,13 +54,13 @@ export default function pkcs1generate(bitlength: number, expt: number, seed?: st
     const dmq1 = d.mod(q1);
     const coeff = q.modInv(p);
     return {
-      n: new Uint8Array(n.toArray(256).value),
-      d: new Uint8Array(d.toArray(256).value),
-      p: new Uint8Array(p.toArray(256).value),
-      q: new Uint8Array(q.toArray(256).value),
-      dmp1: new Uint8Array(dmp1.toArray(256).value),
-      dmq1: new Uint8Array(dmq1.toArray(256).value),
-      coeff: new Uint8Array(coeff.toArray(256).value)
+      n: new Uint8Array(n.toArray(256).value).buffer,
+      d: new Uint8Array(d.toArray(256).value).buffer,
+      p: new Uint8Array(p.toArray(256).value).buffer,
+      q: new Uint8Array(q.toArray(256).value).buffer,
+      dmp1: new Uint8Array(dmp1.toArray(256).value).buffer,
+      dmq1: new Uint8Array(dmq1.toArray(256).value).buffer,
+      coeff: new Uint8Array(coeff.toArray(256).value).buffer
     }
   }
   throw new Error("pkcs1 generate failure!");
