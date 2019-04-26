@@ -5,7 +5,7 @@ import { arrayBufferToBigInt } from "../bigint";
 import Alea from "../rng/alea";
 
 export function generateRandomBiting(bitlength: number, prng: (ba: TypedArray) => void): BigInt.BigInteger {
-  const x = new Uint8Array(bitlength / 8 + 1), t = bitlength & 7;
+  const x = new Uint8Array(bitlength >> 3 + 1), t = bitlength & 7;
   prng(x);
   if (t > 0)
     x[0] &= ((1 << t) - 1);
@@ -27,7 +27,7 @@ export function generatePrime(bitlength: number, prng: (ba: TypedArray) => void)
 
 export default function pkcs1generate(bitlength: number, expt: number, seed?: string) {
   const rng = seed ? Alea(seed) : prng();
-  const qs = bitlength / 2;
+  const qs = bitlength >> 1;
   const ee = BigInt(expt);
   let p,q;
   while (true) {

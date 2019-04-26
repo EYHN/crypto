@@ -1,4 +1,5 @@
 import crypto = require('../src/');
+import { compareArrayBuffer } from '../src/utils/arraybuffer';
 
 describe('module', () => {
   it('should export something', () => {
@@ -88,7 +89,7 @@ describe('sha1', () => {
   it('hash', () => {
     const hash = crypto.sha1(new Uint8Array([1,2,3]));
     expect(hash.byteLength).toBe(20);
-    expect(hash).toMatchSnapshot();
+    expect(new Uint8Array(hash)).toMatchSnapshot();
   });
 });
 
@@ -96,6 +97,35 @@ describe('sha256', () => {
   it('hash', () => {
     const hash = crypto.sha256(new Uint8Array([1,2,3]));
     expect(hash.byteLength).toBe(32);
-    expect(hash).toMatchSnapshot();
+    expect(new Uint8Array(hash)).toMatchSnapshot();
   });
+
+  describe('benchmark', () => {
+    const resultA: ArrayBuffer[] = [], resultB: ArrayBuffer[] = [];
+    const TIMES = 1024;
+
+    it('crypto', () => {
+      const data = [];
+      for (let i = 0;i < TIMES;i++) {
+        data.push(i&256);
+        resultA.push(crypto.sha256(new Uint8Array(data)));
+      }
+    });
+
+    it('js-sha256', () => {
+      const data = [];
+      for (let i = 0;i < TIMES;i++) {
+        data.push(i&256);
+        resultB.push(crypto.sha256(new Uint8Array(data)));
+      }
+    });
+
+    it('should same result', () => {
+      for (let i = 0; i < TIMES; i++) {
+        const a = resultA[i];
+        const b = resultB[i];
+        expect(compareArrayBuffer(a,b)).toBe(true);
+      }
+    });
+  })
 });
