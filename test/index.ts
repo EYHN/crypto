@@ -85,14 +85,6 @@ describe('rsa', () => {
   });
 });
 
-describe('sha1', () => {
-  it('hash', () => {
-    const hash = crypto.sha1(new Uint8Array([1,2,3]));
-    expect(hash.byteLength).toBe(20);
-    expect(new Uint8Array(hash)).toMatchSnapshot();
-  });
-});
-
 describe('sha256', () => {
   it('hash', () => {
     const hash = crypto.sha256(new Uint8Array([1,2,3]));
