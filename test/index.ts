@@ -57,7 +57,7 @@ describe('rsa', () => {
   it('generate', () => {
     const rsa = crypto.rsa.generate(1024, 65537);
     expect(rsa.n.byteLength * 8).toBe(1024);
-    expect(rsa.d.byteLength * 8).toBe(1024);
+    expect(rsa.d.byteLength * 8).toBeLessThanOrEqual(1024);
     expect(rsa.p.byteLength * 8).toBe(512);
     expect(rsa.q.byteLength * 8).toBe(512);
   });
