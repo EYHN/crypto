@@ -2,7 +2,7 @@
   "compilerOptions": {
     "sourceMap": true,
     "noImplicitAny": true,
-    "module": "umd",
+    "module": "commonjs",
     "target": "esnext",
     "jsx": "preserve",
     "declaration": true,
