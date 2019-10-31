@@ -1,5 +1,5 @@
-import crypto = require('../src/');
-import { compareArrayBuffer } from '../src/utils/arraybuffer';
+import crypto = require('../lib/');
+import { compareArrayBuffer } from '../lib/utils/arraybuffer';
 
 describe('module', () => {
   it('should export something', () => {
@@ -121,3 +121,58 @@ describe('sha256', () => {
     });
   })
 });
+
+describe('aes', () => {
+  const aesjs = require('aes-js'); 
+  const plaintext = Array(100).fill('Hello world').join(',');
+
+  it('aes-ctr-256', () => {
+    const prng = crypto.prng();
+    const key = prng(new Uint8Array(256 / 8)).buffer;
+
+    const aesjsctr = new aesjs.ModeOfOperation.ctr(new Uint8Array(key), new aesjs.Counter(1));
+
+    const ciphertext = crypto.aes.ctr.encrypt(key, crypto.tools.textToArrayBuffer(plaintext), 1);
+
+    expect(compareArrayBuffer(
+      ciphertext,
+      aesjsctr.encrypt(aesjs.utils.utf8.toBytes(plaintext)).buffer
+    )).toBe(true);
+
+    expect(
+      crypto.tools.arrayBufferToText(crypto.aes.ctr.decrypt(key, ciphertext, 1))
+    ).toEqual(plaintext);
+  });
+
+  describe('benchmark', () => {
+    const TIMES = 256;
+    const key = crypto.prng()(new Uint8Array(256 / 8)).buffer;
+    const resultA: ArrayBuffer[] = [], resultB: ArrayBuffer[] = [];
+
+    it('crypto', () => {
+      for (let i = 0; i < TIMES; i++) {
+        resultA.push(
+          crypto.aes.ctr.encrypt(key, crypto.tools.textToArrayBuffer(plaintext), 1)
+        );
+      }
+    });
+
+    it('ase-js', () => {
+      for (let i = 0; i < TIMES; i++) {
+        const aesjsctr = new aesjs.ModeOfOperation.ctr(new Uint8Array(key), new aesjs.Counter(1))
+        const ciphertext = aesjsctr.encrypt(aesjs.utils.utf8.toBytes(plaintext)).buffer
+        resultB.push(
+          ciphertext
+        );
+      }
+    });
+
+    it('should same result', () => {
+      for (let i = 0; i < TIMES; i++) {
+        const a = resultA[i];
+        const b = resultB[i];
+        expect(compareArrayBuffer(a,b)).toBe(true);
+      }
+    });
+  })
+}) 

@@ -11,6 +11,8 @@ import pkcs1sign from "./pkcs1/sign";
 import { arrayBufferToBigInt } from "./bigint";
 import sha256 from "./sha256";
 import pkcs1verify from "./pkcs1/verify";
+import aesctrencrypt from "./aes/ctrencrypt";
+import prng from "./rng/prng";
 
 export = {
   rsa: {
@@ -25,6 +27,13 @@ export = {
     verify: pkcs1verify
   },
   sha256: sha256,
+  aes: {
+    ctr: {
+      encrypt: aesctrencrypt,
+      decrypt: aesctrencrypt
+    }
+  },
+  prng: prng,
   tools: {
     hexToArrayBuffer: hexToArrayBuffer,
     arrayBufferToHex: arrayBufferToHex,

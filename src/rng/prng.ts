@@ -1,6 +1,7 @@
 import { TypedArray } from "../interface/TypedArray";
+import * as crypto from 'crypto';
 
-export default function prng(): (ba: TypedArray) => void {
+export default function prng(): (ba: TypedArray) => TypedArray {
   if (typeof window !=="undefined") {
     // Browser
     if (typeof window.crypto !== "undefined") {
@@ -11,11 +12,12 @@ export default function prng(): (ba: TypedArray) => void {
         while (l--) {
           ba[l] = Math.floor(Math.random() * 256)
         }
+        return ba;
       }
     }
   } else {
     // Node.JS
-    const crypto = require('crypto');
-    return (ba) => crypto.randomFillSync(ba);
+    const nodecrypto: typeof crypto = require('crypto');
+    return (ba) => nodecrypto.randomFillSync(ba);
   }
 }
