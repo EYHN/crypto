@@ -18,10 +18,10 @@
     "aes-js": "^3.1.2",
     "jest": "^24.9.0",
     "ts-jest": "^24.1.0",
-    "typescript": "^3.6.4"
+    "typescript": "^3.6.4",
+    "pbkdf2": "^3.0.17"
   },
   "dependencies": {
-    "big-integer": "^1.6.47",
-    "pbkdf2": "^3.0.17"
+    "big-integer": "^1.6.47"
   }
 }
