@@ -87,37 +87,45 @@ describe('rsa', () => {
 
 describe('sha256', () => {
   it('hash', () => {
-    const hash = crypto.sha256(new Uint8Array([1,2,3]));
+    const hash = crypto.hash.sha256(
+      crypto.tools.textToArrayBuffer('hello world')
+    );
     expect(hash.byteLength).toBe(32);
     expect(new Uint8Array(hash)).toMatchSnapshot();
   });
 
+  it('hmac', () => {
+    const hash = crypto.hmac.sha256(
+      crypto.tools.textToArrayBuffer('pass'),
+      crypto.tools.textToArrayBuffer('hello world')
+    )
+    expect(hash.byteLength).toBe(32);
+    expect(new Uint8Array(hash)).toMatchSnapshot();
+  })
+
   describe('benchmark', () => {
-    const resultA: ArrayBuffer[] = [], resultB: ArrayBuffer[] = [];
+    const resultA: string[] = [], resultB: string[] = [];
     const TIMES = 1024;
+    const nodecrypto = require('crypto');
 
     it('crypto', () => {
       const data = [];
       for (let i = 0;i < TIMES;i++) {
         data.push(i&256);
-        resultA.push(crypto.sha256(new Uint8Array(data)));
+        resultA.push(crypto.tools.arrayBufferToHex(crypto.hash.sha256(new Uint8Array(data).buffer)));
       }
     });
 
-    it('js-sha256', () => {
+    it('nodejs sha256', () => {
       const data = [];
       for (let i = 0;i < TIMES;i++) {
         data.push(i&256);
-        resultB.push(crypto.sha256(new Uint8Array(data)));
+        resultB.push(nodecrypto.createHash('sha256').update(new Uint8Array(data)).digest('hex'));
       }
     });
 
     it('should same result', () => {
-      for (let i = 0; i < TIMES; i++) {
-        const a = resultA[i];
-        const b = resultB[i];
-        expect(compareArrayBuffer(a,b)).toBe(true);
-      }
+      expect(resultA).toEqual(resultB);
     });
   })
 });
@@ -147,7 +155,7 @@ describe('aes', () => {
   describe('benchmark', () => {
     const TIMES = 256;
     const key = crypto.prng()(new Uint8Array(256 / 8)).buffer;
-    const resultA: ArrayBuffer[] = [], resultB: ArrayBuffer[] = [];
+    const resultA: ArrayBuffer[] = [], resultB: string[] = [];
 
     it('crypto', () => {
       for (let i = 0; i < TIMES; i++) {
@@ -168,11 +176,25 @@ describe('aes', () => {
     });
 
     it('should same result', () => {
-      for (let i = 0; i < TIMES; i++) {
-        const a = resultA[i];
-        const b = resultB[i];
-        expect(compareArrayBuffer(a,b)).toBe(true);
-      }
+      expect(resultA).toEqual(resultB);
     });
   })
-}) 
+});
+
+describe('pbkdf2', () => {
+  it('pbkdf2-sha256', () => {
+    const password = '123456';
+    const salt = 'miku';
+    const resultA = crypto.tools.arrayBufferToHex(crypto.pbkdf2.sha256(
+      crypto.tools.textToArrayBuffer(password),
+      crypto.tools.textToArrayBuffer(salt),
+      5000,
+      32
+    ));
+
+    const resultB = require('crypto').pbkdf2Sync(password, salt, 5000, 32, 'sha256').toString('hex');
+
+    expect(resultA).toEqual(resultB);
+
+  })
+});

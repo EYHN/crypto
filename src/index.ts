@@ -13,6 +13,8 @@ import sha256 from "./sha256";
 import pkcs1verify from "./pkcs1/verify";
 import aesctrencrypt from "./aes/ctrencrypt";
 import prng from "./rng/prng";
+import pbkdf2sha256 from "./pbkdf2";
+import sha256hmac from "./sha256/hmac";
 
 export = {
   rsa: {
@@ -26,12 +28,20 @@ export = {
     sign: pkcs1sign,
     verify: pkcs1verify
   },
-  sha256: sha256,
+  hash: {
+    sha256: sha256
+  },
+  hmac: {
+    sha256: sha256hmac
+  },
   aes: {
     ctr: {
       encrypt: aesctrencrypt,
       decrypt: aesctrencrypt
     }
+  },
+  pbkdf2: {
+    sha256: pbkdf2sha256
   },
   prng: prng,
   tools: {
