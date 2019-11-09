@@ -28,7 +28,7 @@ describe('rsa', () => {
   it('unpadding', () => {
     const data = new Uint8Array([1,2,3]);
     const m = new Uint8Array(crypto.rsa.padding(data, 30));
-    const unpad = crypto.rsa.unpadding(m, 30);
+    const unpad = new Uint8Array(crypto.rsa.unpadding(m, 30));
     expect(data).toEqual(unpad)
     expect(() => {
       m[1] = 1;
@@ -144,7 +144,7 @@ describe('aes', () => {
 
     expect(compareArrayBuffer(
       ciphertext,
-      aesjsctr.encrypt(aesjs.utils.utf8.toBytes(plaintext)).buffer
+      aesjsctr.encrypt(new Uint8Array(crypto.tools.textToArrayBuffer(plaintext))).buffer
     )).toBe(true);
 
     expect(
@@ -181,20 +181,11 @@ describe('aes', () => {
   })
 });
 
-describe('pbkdf2', () => {
-  it('pbkdf2-sha256', () => {
-    const password = '123456';
-    const salt = 'miku';
-    const resultA = crypto.tools.arrayBufferToHex(crypto.pbkdf2.sha256(
-      crypto.tools.textToArrayBuffer(password),
-      crypto.tools.textToArrayBuffer(salt),
-      5000,
-      32
-    ));
+describe('tools', () => {
+  it('text', () => {
+    const arraybuffer = crypto.tools.textToArrayBuffer('𤭢𐐷');
 
-    const resultB = require('crypto').pbkdf2Sync(password, salt, 5000, 32, 'sha256').toString('hex');
-
-    expect(resultA).toEqual(resultB);
-
+    const text = crypto.tools.arrayBufferToText(arraybuffer);
+    expect(text).toEqual('𤭢𐐷');
   })
 });

@@ -9,5 +9,5 @@ export default function pkcs1unpadding(b: ArrayBuffer, n: number) {
     if(++point >= view.length) return null;
   ++point;
 
-  return view.slice(point);
+  return view.slice(point).buffer;
 }
