@@ -2,6 +2,7 @@ import { T1, T2, T3, T4, S } from "./constants";
 import convertToInt32 from "./convertToInt32";
 
 export default function aesencrypt(plaintext: ArrayBuffer, roundkey: number[][]): ArrayBuffer {
+  plaintext = plaintext.slice(0);
   if (plaintext.byteLength != 16) {
     throw new Error('invalid plaintext size (must be 16 bytes)');
   }

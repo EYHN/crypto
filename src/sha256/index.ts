@@ -78,6 +78,7 @@ function hashBlocks(w: Int32Array, v: Int32Array, p: Uint8Array, pos: number, le
 }
 
 export default function sha256(buf: ArrayBuffer): ArrayBuffer {
+  buf = buf.slice(0);
   const state = new Int32Array(8);
   const data = new Uint8Array(buf);
   const temp = new Int32Array(64);
